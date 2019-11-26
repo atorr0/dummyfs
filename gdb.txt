@@ -1,0 +1,6 @@
+set environment LD_PRELOAD ./fci_cygwin.dll
+file demo.exe
+set disassembly-flavor intel
+break main
+start
+info sharedlibrary
