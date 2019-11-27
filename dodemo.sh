@@ -6,18 +6,46 @@
 # cat proxy_cygwin.sh.names.txt | sed -E -e 's:$:a:' | head
 # cat proxy_cygwin.sh.names.txt | sed -E -e 's:.*:\0 = :' | head
 
-standard_run () {
+standard () {
     export LD_PRELOAD=fci_cygwin.dll
     ./demo
 }
 
-trace_run () {
+strace () {
     export LD_PRELOAD=fci_cygwin.dll
     strace demo
 }
 
-debug_run () {
+debug () {
+    cat>.gdb.txt<<-EOF
+    set environment LD_PRELOAD ./fci_cygwin.dll
+    file demo.exe
+    set disassembly-flavor intel
+    break main
+    break 21
+    start
+    info sharedlibrary
+EOF
+
     gdb --init-command=gdb.txt
 }
 
-debug_run
+# debug w/o de fci_cygwin.dll
+simple-debug () {
+    cat>.gdb.txt<<-EOF
+    file demo.exe
+    set disassembly-flavor intel
+    break main
+    break 21
+    start
+    info sharedlibrary
+EOF
+
+    gdb --init-command=gdb.txt
+}
+
+if [ $# -eq 0 ]; then
+    debug
+else
+    $1
+fi
