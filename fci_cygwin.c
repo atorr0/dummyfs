@@ -3,20 +3,38 @@
  */
 
 #include <windows.h>
-#include <stdarg.h>
-#include <stdio.h>
-// int printf(char *, ...);
-// int fflush(void *);
-// extern void *stdout;
 
-#define LOGCMD(cmd)                        \
-    printf("%s:%d  ", __FILE__, __LINE__); \
-    (cmd);                                 \
-    printf("\n");                          \
-    fflush(stdout);
-#define LOG(text) LOGCMD(printf(text))
+int _printf(char *str, ...)
+{
+
+    HANDLE std_out;
+    int i;
+    char *error_msg;
+
+    std_out = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    if (std_out == INVALID_HANDLE_VALUE)
+    {
+        MessageBox(NULL, "stdout not available", "Error", MB_OK);
+        return 1;
+    }
+
+    DWORD nocw;
+    if (!WriteConsole(std_out, str, strlen(str), &nocw, NULL))
+    {
+        MessageBox(NULL, "WriteConsole error", "Error", MB_OK);
+        return 2;
+    }
+
+    return 0;
+}
+
+#define LOGCMD(cmd)                _printf(__FILE__ ":" __LINE__);(cmd);                         _printf("\n");
+#define LOG(text) _printf(text)
 
 typedef void (*ErrorHandler)(char *, ...);
+
+int _initPAPointers(HMODULE);
 
 /**
  * Calls GetProcAddress and validate it's not null.
@@ -26,7 +44,6 @@ typedef void (*ErrorHandler)(char *, ...);
  */
 int getProcAddress4(HMODULE hModule, LPCSTR lpProcName, FARPROC *pFarproc, ErrorHandler errorHandler)
 {
-
     FARPROC pointer = GetProcAddress(hModule, lpProcName);
 
     if (!pointer)
@@ -34,7 +51,7 @@ int getProcAddress4(HMODULE hModule, LPCSTR lpProcName, FARPROC *pFarproc, Error
 
     *pFarproc = pointer;
 
-    LOGCMD(printf("getProcAddress4(%s): %p\n", lpProcName, pointer));
+    _printf("getProcAddress4(%s): %p\n", lpProcName, pointer);
 }
 
 // __stdcall int _dll_puts(const char *str);
@@ -66,40 +83,46 @@ HMODULE findLoadLibrary(const char *name)
 
         LOG("Retry 1");
 
-        char *n;
-        sprintf(n, "c:\\cygwin\\bin\\%s", name);
+        // char *n;
+        // sprintf(n, "c:\\cygwin\\bin\\%s", name);
 
-        h = LoadLibrary(n);
+        // h = LoadLibrary(n);
     }
 
-    LOGCMD(printf("LoadLibrary(%s): %p\n", name, h));
+    _printf("LoadLibrary(%s): %p\n", name, h);
 
     return h;
 }
 
 ErrorHandler printErrorHandler(char *str)
 {
-    printf("ErrorHandler: ");
-    printf(str);
-    printf("\n");
+    _printf("ErrorHandler: ");
+    _printf(str);
+    _printf("\n");
 }
 
-FILE *fopen(const char *__restrict _name, const char *__restrict _type)
-{
-    printf("my fopen called!\n");
-}
+HMODULE c2dll;
 
 BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle,
                        IN DWORD nReason,
                        IN LPVOID Reserved)
 {
+    LOG("compilation (" __DATE__ " " __TIME__ ")");
+    _printf("%u", nReason);
+
     if (nReason == DLL_PROCESS_ATTACH)
     {
 
-        LOG(__FILE__ " compilation (" __DATE__ " " __TIME__ ")");
-        LOGCMD(printf("%u", nReason))
+        LOG("DLL_PROCESS_ATTACH start");
 
-        printf("fopen() points to: %p\n", fopen);
+        // _printf("fopen() points to: %p\n", fopen);
+
+        if (!(c2dll = findLoadLibrary("cygwin2.dll")))
+            return FALSE;
+
+        // call to cygwin-stub.h:_initPAPointers()
+        if (!_initPAPointers(c2dll))
+            return FALSE;
 
         // puts("normal puts");
 
@@ -155,9 +178,9 @@ BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle,
 
         // puts("YYY");
 
-        fflush(stdout);
+        // fflush(stdout);
 
-        LOG("end");
+        LOG("DLL_PROCESS_ATTACH end");
     }
     else if (nReason == DLL_PROCESS_DETACH)
     {

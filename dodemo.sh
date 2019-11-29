@@ -44,6 +44,11 @@ EOF
     gdb --init-command=gdb.txt
 }
 
+cygwin-test () {
+
+    launch-cygwin-test.cmd
+}
+
 if [ $# -eq 0 ]; then
     debug
 else

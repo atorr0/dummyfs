@@ -1,3 +1,5 @@
-demo.s
-demo.exe
-fci_cygwin.dll
+cygwin-stub.c
+*.s
+*.exe
+*.dll
+*.o
