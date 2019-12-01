@@ -3,8 +3,13 @@ A dummy FS for Cygwin
 
 ## Current status
 
-**2019/11/23**
+**2019-12-01**
+Changed to LD_PRELOAD + cygwin_internal(CW_HOOK,...) way of hooking.
+The initial demo of fopen-ing prints a successful message.
+
+**2019-11-23**
 The `demo.c` can make a JMP-based call to `puts` function.
+
 
 ## Information links
 
@@ -30,6 +35,7 @@ The `demo.c` can make a JMP-based call to `puts` function.
 
 #### dlopen/LoadLibrary/DLL
 
+* https://www.codeproject.com/Articles/16541/Create-your-Proxy-DLLs-automatically
 * https://linux.die.net/man/3/dlopen
 * https://stackoverflow.com/questions/45041751/cygwin-dlopen-error-invalid-or-incomplete-multibyte-or-wide-character
 * http://cygwin.1069669.n5.nabble.com/Problem-with-dlopen-tp57780p57781.html
@@ -46,3 +52,8 @@ The `demo.c` can make a JMP-based call to `puts` function.
 * https://stackoverflow.com/questions/24413545/dllmain-behaves-oddly-with-g-on-cygwin
 * https://cygwin.com/faq.html#faq.programming.huge-executables
 * https://cygwin.com/cygwin-ug-net/using.html#mount-table
+
+#### LD_PRELOAD
+
+* https://catonmat.net/simple-ld-preload-tutorial-part-two
+* http://cygwin.1069669.n5.nabble.com/Usage-of-LD-PRELOAD-td34989.html
