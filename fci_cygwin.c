@@ -3,6 +3,10 @@
  */
 
 #include <windows.h>
+// #include "sys/reent.h"
+
+uintptr_t __stack_chk_guard = 0;
+struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__ = 0;
 
 int _printf(char *str, ...)
 {

@@ -9,8 +9,9 @@
 # cat proxy_cygwin.sh.names.txt | sed -E -e 's:$:a:' | head
 # cat proxy_cygwin.sh.names.txt | sed -E -e 's:.*:\0 = :' | head
 
-TMP1=$(mktemp)
-TMP2=$(mktemp)
+_TMP=$(mktemp -d)
+TMP1=$_TMP/t1
+TMP2=$_TMP/t2
 
 list-exported-syms () {
     nm -g /bin/cygwin1.dll | cut -f2- -d' ' | grep '^T ' | cut -c3-
@@ -48,8 +49,8 @@ main () {
     # 3. Collisions with #include <windows.h> from fci_cygwin.c
 
     list-exported-syms | fgrep -v '@' \
-        | egrep -v 'GetProcAddress|_[Ee]xit|exit|bcopy|bzero|free|sincos[fl]?' \
-        | egrep -v 'DeleteCriticalSection|EnterCriticalSection|FreeLibrary|GetCurrentProcess|GetCurrentProcessId|GetCurrentThreadId|GetLastError|GetStdHandle|GetSystemTimeAsFileTime|InitializeCriticalSection|LeaveCriticalSection|QueryPerformanceCounter|Sleep|TerminateProcess|TlsGetValue' \
+        | egrep -v '^(GetProcAddress|atexit|_[Ee]xit|exit|bcopy|bzero|free|sincos[fl]?)' \
+        | egrep -v '^(DeleteCriticalSection|EnterCriticalSection|FreeLibrary|GetCurrentProcess|GetCurrentProcessId|GetCurrentThreadId|GetLastError|GetStdHandle|GetSystemTimeAsFileTime|InitializeCriticalSection|LeaveCriticalSection|QueryPerformanceCounter|Sleep|TerminateProcess|TlsGetValue)' \
         > $TMP1
 
 
