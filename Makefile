@@ -14,19 +14,23 @@ generate-resources:
 
 compile:
 	# -Wl,--image-base -Wl,0x180040000
-	x86_64-w64-mingw32-gcc ${CC_OPTS} -Wno-builtin-declaration-mismatch -c -o cygwin-stub.o cygwin-stub.c 
-	x86_64-w64-mingw32-gcc ${CC_OPTS} -shared -I/usr/include -o fci_cygwin.dll fci_cygwin.c cygwin-stub.o 
+	# x86_64-w64-mingw32-gcc ${CC_OPTS} -Wno-builtin-declaration-mismatch -c -o cygwin-stub.o cygwin-stub.c 
+	# x86_64-w64-mingw32-gcc ${CC_OPTS} -shared -I/usr/include -o fci_cygwin.dll fci_cygwin.c cygwin-stub.o 
+	
+	# /usr/i686-pc-cygwin/sys-root/usr/include/sys/cygwin.h
+	gcc ${CC_OPTS} -Wall -fPIC -shared -I/usr/include -o fci_cygwin.dll -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--whole-archive fci_cygwin.c -ldl -Wl,--no-whole-archive
+	
 	# ${CC_TOOL} -S demo.c
-	# ${CC_TOOL} -o demo.exe demo.c
+	${CC_TOOL} -o demo.exe demo.c
 #	${CC_TOOL} -shared -o cygwin_proxy.dll cygwin_proxy.c
 
 clean:
 	rm -fr *.{dll,exe,s,stackdump}
 
 deploy:
-	cp fci_cygwin.dll ${OUT_DLL}
+	# cp fci_cygwin.dll ${OUT_DLL}
 
 test:
-	# launch-cygwin-test.cmd
-	cygstart.exe /cygdrive/c/cygwin-test/bin/mintty.exe -i /Cygwin-Terminal.ico -
+	dodemo.sh standard
+	# cygstart.exe /cygdrive/c/cygwin-test/bin/mintty.exe -i /Cygwin-Terminal.ico -
 	# strace demo

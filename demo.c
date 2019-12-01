@@ -18,7 +18,7 @@ int main()
     //
     // -BEGIN DO NOT CHANGE-
     // This next line of code must be at line 21 (as there's a programmatic breakpoint @dodemo.sh)
-    FILE *f= fopen(".", "r");
+    FILE *f= fopen("demo.c", "r");
     // -END DO NOT CHANGE-
 
     printf("fopened\n");

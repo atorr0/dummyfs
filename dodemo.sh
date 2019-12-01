@@ -7,12 +7,12 @@
 # cat proxy_cygwin.sh.names.txt | sed -E -e 's:.*:\0 = :' | head
 
 standard () {
-    export LD_PRELOAD=fci_cygwin.dll
+    export LD_PRELOAD=/Git/dummyfs/fci_cygwin.dll
     ./demo
 }
 
 strace () {
-    export LD_PRELOAD=fci_cygwin.dll
+    export LD_PRELOAD=/Git/dummyfs/fci_cygwin.dll
     strace demo
 }
 
