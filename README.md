@@ -1,6 +1,16 @@
 # dummyfs
 A dummy FS for Cygwin
 
+## Milestones
+
+1. :sunny: Integrate with Cygwin file operations (as LD_PRELOAD).
+3. :clock1: Support **mount** command file operations.
+2. Support **ls** command file operations.
+3. Support **head** command file operations.
+4. Support **nano** command file operations.
+5. Support **vi** command file operations with a large file.
+
+
 ## Current status
 
 **2019-12-01**
