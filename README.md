@@ -34,6 +34,8 @@ The `demo.c` can make a JMP-based call to `puts` function.
 * https://bytes.com/topic/c/answers/876132-how-override-standard-printf-defined-gcc-library
 * https://stackoverflow.com/questions/7278234/why-doesnt-gcc-support-naked-functions
 * https://stackoverflow.com/questions/53407795/how-to-write-asm-goto-inline-assembly
+* http://ellcc.org/
+* http://codewiki.wikidot.com/c:system-calls:open
 
 #### GCC/gas
 
@@ -42,6 +44,14 @@ The `demo.c` can make a JMP-based call to `puts` function.
 * https://gcc.gnu.org/onlinedocs/gcc/Simple-Constraints.html#Simple-Constraints
 * https://sourceware.org/binutils/docs/as/i386_002dVariations.html#i386_002dVariations
 * https://sourceware.org/binutils/docs/as/BPF-Opcodes.html#Jump-instructions
+* https://stackoverflow.com/questions/31529224/inline-assembly-label-already-defined-error
+
+##### gdb
+
+* https://sourceware.org/gdb/onlinedocs/gdb/Non_002ddebug-DLL-Symbols.html
+* http://visualgdb.com/gdbreference/commands/disassemble
+* https://stackoverflow.com/questions/48385027/how-to-follow-a-call-into-a-dll-with-gdb
+* https://stackoverflow.com/questions/10448254/how-to-use-gdb-with-ld-preload
 
 #### dlopen/LoadLibrary/DLL
 
@@ -53,6 +63,10 @@ The `demo.c` can make a JMP-based call to `puts` function.
 * http://www.mingw.org/wiki/sampleDLL
 * https://docs.microsoft.com/en-us/previous-versions/windows/desktop/mscs/implementing-dllmain
 
+#### musl/newlib/uClibc
+
+* https://www.musl-libc.org/how.html
+
 ### Cygwin
 
 * https://cygwin.fandom.com/wiki/FAQ
@@ -62,6 +76,7 @@ The `demo.c` can make a JMP-based call to `puts` function.
 * https://stackoverflow.com/questions/24413545/dllmain-behaves-oddly-with-g-on-cygwin
 * https://cygwin.com/faq.html#faq.programming.huge-executables
 * https://cygwin.com/cygwin-ug-net/using.html#mount-table
+* https://github.com/dokan-dev/dokany
 
 #### LD_PRELOAD
 
