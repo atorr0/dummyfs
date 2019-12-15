@@ -9,6 +9,7 @@
 standard () {
     export LD_PRELOAD=/Git/dummyfs/fci_cygwin.dll
     ./demo
+    head demo.c
 }
 
 strace () {
@@ -47,6 +48,14 @@ EOF
 cygwin-test () {
 
     launch-cygwin-test.cmd
+}
+
+do-mount () {
+    local _T=$(mktemp -d)
+    ls -ld $_T
+    export LD_PRELOAD=/Git/dummyfs/fci_cygwin.dll
+    mount  fci:dummyfs:-readonly,-test=whatever-value $_T
+    ls -ld $_T
 }
 
 if [ $# -eq 0 ]; then

@@ -31,6 +31,6 @@ deploy:
 	# cp fci_cygwin.dll ${OUT_DLL}
 
 test:
-	dodemo.sh standard
+	dodemo.sh do-mount
 	# cygstart.exe /cygdrive/c/cygwin-test/bin/mintty.exe -i /Cygwin-Terminal.ico -
 	# strace demo
