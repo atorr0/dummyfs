@@ -35,7 +35,6 @@ The `demo.c` can make a JMP-based call to `puts` function.
 * https://stackoverflow.com/questions/7278234/why-doesnt-gcc-support-naked-functions
 * https://stackoverflow.com/questions/53407795/how-to-write-asm-goto-inline-assembly
 * http://ellcc.org/
-* http://codewiki.wikidot.com/c:system-calls:open
 
 #### GCC/gas
 
