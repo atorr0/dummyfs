@@ -10,7 +10,7 @@ OUT_DLL=/cygdrive/c/cygwin-test/bin/cygwin1.dll
 all: clean generate-resources compile deploy test
 
 generate-resources:
-	cygwin-stubify.sh
+	# cygwin-stubify.sh
 
 compile:
 	# -Wl,--image-base -Wl,0x180040000
@@ -18,11 +18,12 @@ compile:
 	# x86_64-w64-mingw32-gcc ${CC_OPTS} -shared -I/usr/include -o fci_cygwin.dll fci_cygwin.c cygwin-stub.o 
 	
 	# /usr/i686-pc-cygwin/sys-root/usr/include/sys/cygwin.h
-	gcc ${CC_OPTS} -Wall -fPIC -shared -I/usr/include -o fci_cygwin.dll -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--whole-archive fci_cygwin.c -ldl -Wl,--no-whole-archive
+	# gcc ${CC_OPTS} -Wall -fPIC -shared -I/usr/include -o fci_cygwin.dll -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--whole-archive fci_cygwin.c -ldl -Wl,--no-whole-archive
+	${CC_TOOL} -Wall -shared -o fci_cygwin.dll fci_cygwin.c
 	
 	# ${CC_TOOL} -S demo.c
 	${CC_TOOL} -o demo.exe demo.c
-#	${CC_TOOL} -shared -o cygwin_proxy.dll cygwin_proxy.c
+	# ${CC_TOOL} -shared -o cygwin_proxy.dll cygwin_proxy.c
 
 clean:
 	rm -fr *.{dll,exe,s,stackdump}
@@ -31,6 +32,4 @@ deploy:
 	# cp fci_cygwin.dll ${OUT_DLL}
 
 test:
-	dodemo.sh do-mount
-	# cygstart.exe /cygdrive/c/cygwin-test/bin/mintty.exe -i /Cygwin-Terminal.ico -
-	# strace demo
+	dodemo.sh

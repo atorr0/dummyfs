@@ -7,9 +7,16 @@
 # cat proxy_cygwin.sh.names.txt | sed -E -e 's:.*:\0 = :' | head
 
 standard () {
-    export LD_PRELOAD=/Git/dummyfs/fci_cygwin.dll
-    ./demo
-    head demo.c
+    export LD_PRELOAD=/cygdrive/c/Git/dummyfs/fci_cygwin.dll
+
+    echo "LD_PRELOAD:$LD_PRELOAD"
+    cat -n demo.c
+
+    echo "LD_PRELOAD:$LD_PRELOAD"
+    head -3 demo.c
+
+    bash -c 'echo LD_PRELOAD [$LD_PRELOAD]; cat -n demo.c'
+    echo "Exited with $?"
 }
 
 strace () {
@@ -59,7 +66,7 @@ do-mount () {
 }
 
 if [ $# -eq 0 ]; then
-    debug
+    standard
 else
-    $1
+    $*
 fi
